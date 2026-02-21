@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+@keyframes gradient {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.4);
+    width: 350px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    background: #ff4e8a;
+    color: white;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+#noBtn {
+    position: relative;
+}
+
+.slider {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.message {
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 1;}
+    100% { transform: translateY(-10vh); opacity: 0;}
+}
+
+/* Popup */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    color: #ff4e8a;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    transition: 0.4s;
+    z-index: 1000;
+}
+
+.popup.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+.overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Do You Love Me?</h2>
+    <button onclick="showLove()">Yes</button>
+    <button id="noBtn">No</button>
+
+    <h3>Rate How Much You Love Me</h3>
+    <input type="range" min="0" max="100" value="50" class="slider" id="loveRange">
+    <div class="message" id="loveMessage"></div>
+
+    <button onclick="openPopup()">I Love You & Miss You</button>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="popup" id="popup">
+    <h2>Surprise</h2>
+    <p>You are my favorite person forever. Stay healthy always.</p>
+    <button onclick="closePopup()">Close</button>
+</div>
+
+<script>
+
+function showLove() {
+    alert("I love you more.");
+}
+
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", function() {
+    const x = Math.floor(Math.random() * 200) - 100;
+    const y = Math.floor(Math.random() * 200) - 100;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+const slider = document.getElementById("loveRange");
+const message = document.getElementById("loveMessage");
+
+slider.oninput = function() {
+    message.innerHTML = this.value + "% Love";
+}
+
+function openPopup() {
+    document.getElementById("popup").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+}
+
+function closePopup() {
+    document.getElementById("popup").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 300);
+
+</script>
+
+</body>
+</html>
